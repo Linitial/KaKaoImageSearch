@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KaKaoImageSearch"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
