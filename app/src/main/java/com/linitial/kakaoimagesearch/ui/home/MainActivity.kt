@@ -26,6 +26,9 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * 1. 에러 핸들링 하기
+     * - 네트워크 미연결
+     * - http error 처리. 예) 500에 대한 처리
+     * 
      * 2. 이미지 상세화면 구현하기.
      * 3. string.xml 에 텍스트 리소스로 분리.
      */
