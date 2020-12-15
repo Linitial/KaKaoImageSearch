@@ -2,16 +2,17 @@ package com.linitial.kakaoimagesearch.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.databinding.BindingAdapter
-import androidx.databinding.DataBindingUtil
-import androidx.paging.PagedList
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.jakewharton.rxbinding4.widget.textChanges
-import com.linitial.kakaoimagesearch.R
+import com.linitial.kakaoimagesearch.config.AppConstants
+import com.linitial.kakaoimagesearch.extension.hideKeyboard
 import com.linitial.kakaoimagesearch.databinding.ActivityMainBinding
+import com.linitial.kakaoimagesearch.extension.gone
+import com.linitial.kakaoimagesearch.extension.visible
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
@@ -19,39 +20,81 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var imageAdapter: SearchImageAdapter
 
     private val vm: MainViewModel by viewModel()
-    private val adapter = ImageAdapter()
 
+    /**
+     * 2. 에러 핸들링 하기
+     * 5. 이미지 상세화면 구현하기.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.also {
-            it.vm = vm
+        initView()
+        initData()
+    }
+
+    private fun initView() {
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(this)).apply {
+            setContentView(root)
         }
 
         binding.etSearch.textChanges()
-            .debounce(2L, TimeUnit.SECONDS)
-            .filter { it != null && it.isNotEmpty() }
+            .doOnNext { vm.setEmptyList() }
+            .debounce(1L, TimeUnit.SECONDS)
+            .filter { it != null && it.isNotBlank() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                vm.searchImage(it.toString())
             }
 
-        adapter.eventListener = object: ImageAdapter.EventListener {
+        imageAdapter = SearchImageAdapter(
+            clickListener = {
+                Toast.makeText(this@MainActivity, it.toString(), Toast.LENGTH_SHORT).show()
+            },
+            emptyResultListener = {
+                vm.setEmptyResult()
+            }
+        )
 
-            override fun onClick(item: ItemImage) {
-
+        binding.rvSearch.run {
+            adapter = imageAdapter.withLoadStateFooter(SearchStateAdapter { imageAdapter.retry() })
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(this@MainActivity, AppConstants.GRID_SPAN_SIZE).apply {
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return imageAdapter.getItemViewType(position)
+                    }
+                }
             }
         }
-        vm.imageListData.observe(this, {
-            adapter.submitData(lifecycle, it)
-        })
-
     }
 
-    @BindingAdapter(*["vm", "items"], requireAll = true)
-    fun setItems(recyclerView: RecyclerView, vm: MainViewModel, items: PagedList<ItemImage>){
+    private fun initData() {
+        vm.imageListData.observe(this, {
+            if (::imageAdapter.isInitialized) {
+                imageAdapter.submitData(lifecycle, it)
+            }
+        })
 
+        vm.hideKeyboard.observe(this, {
+            binding.etSearch.hideKeyboard()
+        })
+
+        vm.emptyResult.observe(this, {
+            if(it) {
+                binding.tvEmptyResult.visible()
+            }else {
+                binding.tvEmptyResult.gone()
+            }
+        })
+
+        vm.loadingStatus.observe(this, Observer {
+            if(it) {
+                binding.pbLoading.visible()
+            }else {
+                binding.pbLoading.gone()
+            }
+        })
     }
 }
