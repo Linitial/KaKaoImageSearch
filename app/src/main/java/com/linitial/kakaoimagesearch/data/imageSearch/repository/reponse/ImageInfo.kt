@@ -1,4 +1,4 @@
-package com.linitial.kakaoimagesearch.data.imageSearch.repository
+package com.linitial.kakaoimagesearch.data.imageSearch.repository.reponse
 
 import com.google.gson.annotations.SerializedName
 import java.util.*
