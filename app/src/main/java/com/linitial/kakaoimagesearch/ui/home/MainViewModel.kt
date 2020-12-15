@@ -1,4 +1,4 @@
-package com.linitial.kakaoimagesearch.ui
+package com.linitial.kakaoimagesearch.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

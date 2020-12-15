@@ -1,4 +1,4 @@
-package com.linitial.kakaoimagesearch.ui
+package com.linitial.kakaoimagesearch.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,8 +25,9 @@ class MainActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModel()
 
     /**
-     * 2. 에러 핸들링 하기
-     * 5. 이미지 상세화면 구현하기.
+     * 1. 에러 핸들링 하기
+     * 2. 이미지 상세화면 구현하기.
+     * 3. string.xml 에 텍스트 리소스로 분리.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

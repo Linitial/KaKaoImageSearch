@@ -1,4 +1,4 @@
-package com.linitial.kakaoimagesearch.ui
+package com.linitial.kakaoimagesearch.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
