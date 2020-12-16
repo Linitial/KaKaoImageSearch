@@ -3,7 +3,8 @@
     <string name="keyword_hint">Please enter a search keyword.</string>
     <string name="empty_result">No results were found for your search.</string>
     <string name="retry">retry</string>
-    <string name="error_search_result">An error occurred while loading the search results.</string>
     <string name="display_site_name">Display Site: %s</string>
     <string name="writing_time">Writing Time: %s</string>
+    <string name="error_search_result">An error occurred while loading the search results.</string>
+    <string name="error_network_disconnect">Check the network connection status</string>
 </resources>

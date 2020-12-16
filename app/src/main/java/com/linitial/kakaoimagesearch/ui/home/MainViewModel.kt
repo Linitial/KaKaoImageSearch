@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
+import com.linitial.kakaoimagesearch.R
 import com.linitial.kakaoimagesearch.data.imageSearch.repository.reponse.ImageInfo
 import com.linitial.kakaoimagesearch.data.imageSearch.repository.ImageSearchRepository
+import com.linitial.kakaoimagesearch.extension.isNetworkError
+import com.linitial.kakaoimagesearch.util.DeviceManager
+import com.linitial.kakaoimagesearch.util.ResourceManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -15,6 +19,8 @@ import retrofit2.HttpException
 import timber.log.Timber
 
 class MainViewModel(
+    private val deviceManager: DeviceManager,
+    private val resourceManager: ResourceManager,
     private val imageSearchRepository: ImageSearchRepository
 ) : ViewModel() {
 
@@ -32,11 +38,19 @@ class MainViewModel(
     private val _loadingStatus = MutableLiveData<Boolean>()
     val loadingStatus = _loadingStatus
 
+    private val _toast = MutableLiveData<String>()
+    val toast: LiveData<String> = _toast
+
     fun setEmptyList() {
         _imageListData.value = PagingData.empty()
     }
 
     fun searchImage(keyword: String) {
+        if(!deviceManager.isNetworkEnable()) {
+            _toast.value = resourceManager.string(R.string.error_network_disconnect)
+            return
+        }
+
         _hideKeyboard.value = Unit
         _emptyResult.value = false
         _loadingStatus.value = true
@@ -53,14 +67,18 @@ class MainViewModel(
                 onError = {
                     Timber.e(it)
 
-                    when (it) {
-                        is HttpException -> {}
-                        is Exception -> {}
+                    if(isNetworkError(it)){
+                        if (deviceManager.isNetworkEnable()) {
+                            _toast.value = resourceManager.string(R.string.error_search_result)
+
+                        } else {
+                            _toast.value = resourceManager.string(R.string.error_network_disconnect)
+                        }
+                    }else {
+                        _toast.value = resourceManager.string(R.string.error_search_result)
                     }
                 },
-                onComplete = {
-
-                }
+                onComplete = {}
             ).addTo(compositeDisposable)
     }
 

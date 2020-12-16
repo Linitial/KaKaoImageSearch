@@ -27,11 +27,6 @@ class MainActivity : AppCompatActivity() {
 
     private val vm: MainViewModel by viewModel()
 
-    /**
-     * 1. 에러 핸들링 하기
-     * - 네트워크 미연결
-     * - http error 처리. 예) 500에 대한 처리
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
@@ -94,13 +89,21 @@ class MainActivity : AppCompatActivity() {
                 binding.pbLoading.gone()
             }
         }
+
+        vm.toast.observe(this) {
+            showToast(it)
+        }
     }
 
-    private fun showDetail(item: ImageInfo){
+    private fun showDetail(item: ImageInfo) {
         val intent = Intent(this, DetailActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
             .putExtra(DetailActivity.EXTRA_DETAIL_ITEM, item)
 
         startActivity(intent)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

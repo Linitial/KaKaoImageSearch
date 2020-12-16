@@ -25,13 +25,15 @@ class LoadStateViewHolder(private val view: ItemGridLoadStateBinding) : Recycler
     fun bindData(loadState: LoadState, retry: () -> Unit){
         when(loadState){
             is LoadState.Error -> {
-                view.tvErrorMsg.text = loadState.error.localizedMessage
+                view.tvErrorDesc.text = loadState.error.localizedMessage
+                view.tvErrorDesc.visible()
                 view.tvErrorMsg.visible()
                 view.btnRetry.visible()
                 view.pbLoading.gone()
             }
 
             is LoadState.Loading -> {
+                view.tvErrorDesc.gone()
                 view.tvErrorMsg.gone()
                 view.btnRetry.gone()
                 view.pbLoading.visible()

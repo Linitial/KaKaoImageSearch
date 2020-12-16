@@ -4,7 +4,8 @@
     <string name="keyword_hint">검색어를 입력해주세요</string>
     <string name="empty_result">검색 결과가 없습니다.</string>
     <string name="retry">재시도</string>
-    <string name="error_search_result">검색 결과를 불러오는 중 에러가 발생했습니다.</string>
     <string name="display_site_name">출처: %s</string>
     <string name="writing_time">문서작성시간: %s</string>
+    <string name="error_search_result">검색 결과를 불러오는 중 문제가 발생했습니다.</string>
+    <string name="error_network_disconnect">네트워크 연결 상태를 확인해주세요</string>
 </resources>
