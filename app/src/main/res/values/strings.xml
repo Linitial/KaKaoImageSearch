@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">KaKaoImageSearch</string>
+    <string name="keyword_hint">Please enter a search keyword.</string>
+    <string name="empty_result">No results were found for your search.</string>
+    <string name="retry">retry</string>
+    <string name="error_search_result">An error occurred while loading the search results.</string>
+    <string name="display_site_name">Display Site: %s</string>
+    <string name="writing_time">Writing Time: %s</string>
 </resources>

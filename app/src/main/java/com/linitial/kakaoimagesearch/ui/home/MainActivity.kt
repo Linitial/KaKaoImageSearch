@@ -1,5 +1,6 @@
 package com.linitial.kakaoimagesearch.ui.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +9,12 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.linitial.kakaoimagesearch.config.AppConstants
+import com.linitial.kakaoimagesearch.data.imageSearch.repository.reponse.ImageInfo
 import com.linitial.kakaoimagesearch.extension.hideKeyboard
 import com.linitial.kakaoimagesearch.databinding.ActivityMainBinding
 import com.linitial.kakaoimagesearch.extension.gone
 import com.linitial.kakaoimagesearch.extension.visible
+import com.linitial.kakaoimagesearch.ui.detail.DetailActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,9 +31,6 @@ class MainActivity : AppCompatActivity() {
      * 1. 에러 핸들링 하기
      * - 네트워크 미연결
      * - http error 처리. 예) 500에 대한 처리
-     * 
-     * 2. 이미지 상세화면 구현하기.
-     * 3. string.xml 에 텍스트 리소스로 분리.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +48,11 @@ class MainActivity : AppCompatActivity() {
             .debounce(1L, TimeUnit.SECONDS)
             .filter { it != null && it.isNotBlank() }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                vm.searchImage(it.toString())
-            }
+            .subscribe { vm.searchImage(it.toString()) }
 
         imageAdapter = SearchImageAdapter(
-            clickListener = {
-                Toast.makeText(this@MainActivity, it.toString(), Toast.LENGTH_SHORT).show()
-            },
-            emptyResultListener = {
-                vm.setEmptyResult()
-            }
+            clickListener = { showDetail(it) },
+            emptyResultListener = { vm.setEmptyResult() }
         )
 
         binding.rvSearch.run {
@@ -100,5 +94,13 @@ class MainActivity : AppCompatActivity() {
                 binding.pbLoading.gone()
             }
         }
+    }
+
+    private fun showDetail(item: ImageInfo){
+        val intent = Intent(this, DetailActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            .putExtra(DetailActivity.EXTRA_DETAIL_ITEM, item)
+
+        startActivity(intent)
     }
 }

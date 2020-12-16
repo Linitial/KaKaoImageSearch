@@ -1,6 +1,7 @@
 package com.linitial.kakaoimagesearch.data.imageSearch.repository.reponse
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.util.*
 
 data class ImageInfo(
@@ -16,4 +17,4 @@ data class ImageInfo(
 
     @SerializedName("datetime")
     val dateTime: Date?
-)
+): Serializable
