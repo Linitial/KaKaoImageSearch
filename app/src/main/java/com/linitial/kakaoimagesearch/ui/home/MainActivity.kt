@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.linitial.kakaoimagesearch.config.AppConstants
@@ -75,30 +75,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        vm.imageListData.observe(this, {
+        vm.imageListData.observe(this) {
             if (::imageAdapter.isInitialized) {
                 imageAdapter.submitData(lifecycle, it)
             }
-        })
+        }
 
-        vm.hideKeyboard.observe(this, {
+        vm.hideKeyboard.observe(this) {
             binding.etSearch.hideKeyboard()
-        })
+        }
 
-        vm.emptyResult.observe(this, {
+        vm.emptyResult.observe(this) {
             if(it) {
                 binding.tvEmptyResult.visible()
             }else {
                 binding.tvEmptyResult.gone()
             }
-        })
+        }
 
-        vm.loadingStatus.observe(this, Observer {
+        vm.loadingStatus.observe(this) {
             if(it) {
                 binding.pbLoading.visible()
             }else {
                 binding.pbLoading.gone()
             }
-        })
+        }
     }
 }
