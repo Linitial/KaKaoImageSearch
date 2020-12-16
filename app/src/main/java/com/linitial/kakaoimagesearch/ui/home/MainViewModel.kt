@@ -11,6 +11,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
+import timber.log.Timber
 
 class MainViewModel(
     private val imageSearchRepository: ImageSearchRepository
@@ -49,7 +51,12 @@ class MainViewModel(
                     _imageListData.value = it
                 },
                 onError = {
+                    Timber.e(it)
 
+                    when (it) {
+                        is HttpException -> {}
+                        is Exception -> {}
+                    }
                 },
                 onComplete = {
 
