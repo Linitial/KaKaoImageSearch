@@ -10,8 +10,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class KakaoApiProvider {
-
+interface KakaoApiProvider {
     companion object {
         const val REST_API_KEY = "e803017eaa0d53415ceeb62d42667f65"
         const val AUTH_HEADER = "KakaoAK $REST_API_KEY"
@@ -21,6 +20,11 @@ class KakaoApiProvider {
         const val WRITE_TIME_OUT = 10000L
     }
 
+    val imageSearchAPI: ImageSearchAPI
+}
+
+class KakaoApiProviderImpl: KakaoApiProvider {
+
     private val gson by lazy {
         GsonBuilder()
             .setLenient()
@@ -29,9 +33,9 @@ class KakaoApiProvider {
 
     private val client by lazy {
         OkHttpClient.Builder()
-            .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
-            .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
-            .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
+            .connectTimeout(KakaoApiProvider.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
+            .readTimeout(KakaoApiProvider.READ_TIME_OUT, TimeUnit.MILLISECONDS)
+            .writeTimeout(KakaoApiProvider.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = if (BuildConfig.DEBUG) {
@@ -58,7 +62,6 @@ class KakaoApiProvider {
         }
     }
 
-    private val kakao by lazy { build(KAKAO_OPEN_API_URL) }
-
-    val imageSearchAPI: ImageSearchAPI by lazy { kakao.create(ImageSearchAPI::class.java) }
+    private val kakao by lazy { build(KakaoApiProvider.KAKAO_OPEN_API_URL) }
+    override val imageSearchAPI: ImageSearchAPI by lazy { kakao.create(ImageSearchAPI::class.java) }
 }
