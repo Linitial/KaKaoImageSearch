@@ -6,6 +6,7 @@ class KakaoApiProvider: RetrofitCreator() {
 
     companion object {
         const val REST_API_KEY = "e803017eaa0d53415ceeb62d42667f65"
+        const val AUTH_HEADER = "KakaoAK $REST_API_KEY"
         const val KaKaoOpenAPI = "https://dapi.kakao.com"
     }
 

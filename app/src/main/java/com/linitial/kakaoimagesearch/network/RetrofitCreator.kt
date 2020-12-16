@@ -18,6 +18,7 @@ open class RetrofitCreator {
     private val builder = Retrofit.Builder()
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(EnumConverterFactory())
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)

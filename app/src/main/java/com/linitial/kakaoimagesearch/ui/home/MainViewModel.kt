@@ -34,12 +34,12 @@ class MainViewModel(
         _imageListData.value = PagingData.empty()
     }
 
-    fun searchImage(query: String) {
+    fun searchImage(keyword: String) {
         _hideKeyboard.value = Unit
         _emptyResult.value = false
         _loadingStatus.value = true
 
-        imageSearchRepository.searchImage(keyWord = query, "", 1, 10)
+        imageSearchRepository.searchImage(query = keyword)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
