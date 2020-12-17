@@ -35,7 +35,8 @@ class KakaoApiProviderImpl : KakaoApiProvider {
                     } else {
                         HttpLoggingInterceptor.Level.NONE
                     }
-                })
+                }
+            )
             .build()
     }
 

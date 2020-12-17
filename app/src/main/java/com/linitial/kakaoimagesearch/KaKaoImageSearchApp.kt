@@ -63,5 +63,4 @@ class KaKaoImageSearchApp : Application() {
     private fun initTimber() {
         Timber.plant(Timber.DebugTree())
     }
-
 }

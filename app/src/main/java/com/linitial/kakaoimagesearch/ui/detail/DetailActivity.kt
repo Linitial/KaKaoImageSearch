@@ -9,7 +9,7 @@ import com.linitial.kakaoimagesearch.data.imageSearch.repository.reponse.ImageIn
 import com.linitial.kakaoimagesearch.databinding.ActivityDetailBinding
 import com.linitial.kakaoimagesearch.extension.gone
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 class DetailActivity : AppCompatActivity() {
 

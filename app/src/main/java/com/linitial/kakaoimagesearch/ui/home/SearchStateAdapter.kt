@@ -54,5 +54,4 @@ class LoadStateViewHolder(private val view: ItemGridLoadStateBinding) :
             retry.invoke()
         }
     }
-
 }

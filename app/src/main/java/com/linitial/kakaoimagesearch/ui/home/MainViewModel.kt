@@ -15,7 +15,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import retrofit2.HttpException
 import timber.log.Timber
 
 class MainViewModel(

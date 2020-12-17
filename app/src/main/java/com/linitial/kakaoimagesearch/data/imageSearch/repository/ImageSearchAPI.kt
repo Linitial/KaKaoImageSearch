@@ -2,7 +2,6 @@ package com.linitial.kakaoimagesearch.data.imageSearch.repository
 
 import com.linitial.kakaoimagesearch.config.API
 import com.linitial.kakaoimagesearch.data.imageSearch.repository.reponse.ImageSearchResponse
-import com.linitial.kakaoimagesearch.network.KakaoApiProvider
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -18,5 +17,4 @@ interface ImageSearchAPI {
         @Query("page") page: Int,
         @Query("size") size: Int
     ): Single<ImageSearchResponse>
-
 }
