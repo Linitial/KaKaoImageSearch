@@ -11,7 +11,7 @@ import com.linitial.kakaoimagesearch.extension.gone
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DetailActivity: AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_DETAIL_ITEM = "EXTRA_DETAIL_ITEM"

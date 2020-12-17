@@ -12,7 +12,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.net.SocketException
 
-class KaKaoImageSearchApp: Application() {
+class KaKaoImageSearchApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -21,7 +21,7 @@ class KaKaoImageSearchApp: Application() {
         initTimber()
     }
 
-    private fun initKoin(){
+    private fun initKoin() {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@KaKaoImageSearchApp)
@@ -29,7 +29,7 @@ class KaKaoImageSearchApp: Application() {
         }
     }
 
-    private fun initRxErrorHandle(){
+    private fun initRxErrorHandle() {
         RxJavaPlugins.setErrorHandler { e ->
             var error = e
             if (error is UndeliverableException) {
@@ -60,7 +60,7 @@ class KaKaoImageSearchApp: Application() {
         }
     }
 
-    private fun initTimber(){
+    private fun initTimber() {
         Timber.plant(Timber.DebugTree())
     }
 

@@ -2,6 +2,7 @@ package com.linitial.kakaoimagesearch.network
 
 import com.google.gson.GsonBuilder
 import com.linitial.kakaoimagesearch.BuildConfig
+import com.linitial.kakaoimagesearch.config.API
 import com.linitial.kakaoimagesearch.data.imageSearch.repository.ImageSearchAPI
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,19 +12,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 interface KakaoApiProvider {
-    companion object {
-        const val REST_API_KEY = "e803017eaa0d53415ceeb62d42667f65"
-        const val AUTH_HEADER = "KakaoAK $REST_API_KEY"
-        const val KAKAO_OPEN_API_URL = "https://dapi.kakao.com"
-        const val CONNECT_TIME_OUT = 10000L
-        const val READ_TIME_OUT = 10000L
-        const val WRITE_TIME_OUT = 10000L
-    }
-
     val imageSearchAPI: ImageSearchAPI
 }
 
-class KakaoApiProviderImpl: KakaoApiProvider {
+class KakaoApiProviderImpl : KakaoApiProvider {
 
     private val gson by lazy {
         GsonBuilder()
@@ -33,9 +25,9 @@ class KakaoApiProviderImpl: KakaoApiProvider {
 
     private val client by lazy {
         OkHttpClient.Builder()
-            .connectTimeout(KakaoApiProvider.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
-            .readTimeout(KakaoApiProvider.READ_TIME_OUT, TimeUnit.MILLISECONDS)
-            .writeTimeout(KakaoApiProvider.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
+            .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+            .readTimeout(10000L, TimeUnit.MILLISECONDS)
+            .writeTimeout(10000L, TimeUnit.MILLISECONDS)
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = if (BuildConfig.DEBUG) {
@@ -62,6 +54,6 @@ class KakaoApiProviderImpl: KakaoApiProvider {
         }
     }
 
-    private val kakao by lazy { build(KakaoApiProvider.KAKAO_OPEN_API_URL) }
+    private val kakao by lazy { build(API.KAKAO_OPEN_API_URL) }
     override val imageSearchAPI: ImageSearchAPI by lazy { kakao.create(ImageSearchAPI::class.java) }
 }

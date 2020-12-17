@@ -45,8 +45,12 @@ class MainViewModel(
         _imageListData.value = PagingData.empty()
     }
 
+    fun setEmptyResult() {
+        _emptyResult.value = true
+    }
+
     fun searchImage(keyword: String) {
-        if(!deviceManager.isNetworkEnable()) {
+        if (!deviceManager.isNetworkEnable()) {
             _toast.value = resourceManager.string(R.string.error_network_disconnect)
             return
         }
@@ -67,15 +71,14 @@ class MainViewModel(
                 onError = {
                     Timber.e(it)
 
-                    if(isNetworkError(it)){
+                    _toast.value = if (isNetworkError(it)) {
                         if (deviceManager.isNetworkEnable()) {
-                            _toast.value = resourceManager.string(R.string.error_search_result)
-
+                            resourceManager.string(R.string.error_search_result)
                         } else {
-                            _toast.value = resourceManager.string(R.string.error_network_disconnect)
+                            resourceManager.string(R.string.error_network_disconnect)
                         }
-                    }else {
-                        _toast.value = resourceManager.string(R.string.error_search_result)
+                    } else {
+                        resourceManager.string(R.string.error_search_result)
                     }
                 },
                 onComplete = {}
@@ -85,9 +88,5 @@ class MainViewModel(
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
-    }
-
-    fun setEmptyResult() {
-        _emptyResult.value = true
     }
 }

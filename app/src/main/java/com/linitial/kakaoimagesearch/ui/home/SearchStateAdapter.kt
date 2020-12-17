@@ -9,21 +9,28 @@ import com.linitial.kakaoimagesearch.databinding.ItemGridLoadStateBinding
 import com.linitial.kakaoimagesearch.extension.gone
 import com.linitial.kakaoimagesearch.extension.visible
 
-class SearchStateAdapter(private val retry: () -> Unit): LoadStateAdapter<LoadStateViewHolder>() {
+class SearchStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<LoadStateViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {
-        return LoadStateViewHolder(ItemGridLoadStateBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return LoadStateViewHolder(
+            ItemGridLoadStateBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
-    
+
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
         holder.bindData(loadState, retry)
     }
 }
 
-class LoadStateViewHolder(private val view: ItemGridLoadStateBinding) : RecyclerView.ViewHolder(view.root) {
-    
-    fun bindData(loadState: LoadState, retry: () -> Unit){
-        when(loadState){
+class LoadStateViewHolder(private val view: ItemGridLoadStateBinding) :
+    RecyclerView.ViewHolder(view.root) {
+
+    fun bindData(loadState: LoadState, retry: () -> Unit) {
+        when (loadState) {
             is LoadState.Error -> {
                 view.tvErrorDesc.text = loadState.error.localizedMessage
                 view.tvErrorDesc.visible()
@@ -39,7 +46,8 @@ class LoadStateViewHolder(private val view: ItemGridLoadStateBinding) : Recycler
                 view.pbLoading.visible()
             }
 
-            is LoadState.NotLoading -> {}
+            is LoadState.NotLoading -> {
+            }
         }
 
         view.btnRetry.setOnClickListener {

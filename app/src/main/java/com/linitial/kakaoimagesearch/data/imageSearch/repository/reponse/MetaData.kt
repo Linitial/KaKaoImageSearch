@@ -3,7 +3,6 @@ package com.linitial.kakaoimagesearch.data.imageSearch.repository.reponse
 import com.google.gson.annotations.SerializedName
 
 data class MetaData(
-
     @SerializedName("total_count")
     val totalCount: Int?,
 

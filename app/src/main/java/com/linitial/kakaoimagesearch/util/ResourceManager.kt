@@ -11,5 +11,4 @@ class ResourceManager(
 
     fun string(@StringRes resId: Int): String = context.getString(resId)
 
-    fun color(@ColorRes resId: Int): Int = ContextCompat.getColor(context, resId)
 }

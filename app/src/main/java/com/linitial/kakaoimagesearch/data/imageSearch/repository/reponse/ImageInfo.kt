@@ -5,7 +5,6 @@ import java.io.Serializable
 import java.util.*
 
 data class ImageInfo(
-
     @SerializedName("thumbnail_url")
     val thumbNailUrl: String?,
 
@@ -17,4 +16,4 @@ data class ImageInfo(
 
     @SerializedName("datetime")
     val dateTime: Date?
-): Serializable
+) : Serializable

@@ -17,7 +17,7 @@ val appModule = module {
     single { DeviceManager(androidContext()) }
     single { ResourceManager(androidContext()) }
     single<KakaoApiProvider> { KakaoApiProviderImpl() }
-    
+
     // repositories
     single<ImageSearchRepository> { ImageSearchRepositoryImpl(get()) }
 

@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jakewharton.rxbinding4.widget.textChanges
-import com.linitial.kakaoimagesearch.config.AppConstants
+import com.linitial.kakaoimagesearch.config.PAGING
 import com.linitial.kakaoimagesearch.data.imageSearch.repository.reponse.ImageInfo
 import com.linitial.kakaoimagesearch.extension.hideKeyboard
 import com.linitial.kakaoimagesearch.databinding.ActivityMainBinding
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvSearch.run {
             adapter = imageAdapter.withLoadStateFooter(SearchStateAdapter { imageAdapter.retry() })
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(this@MainActivity, AppConstants.GRID_SPAN_SIZE).apply {
+            layoutManager = GridLayoutManager(this@MainActivity, PAGING.GRID_SPAN_SIZE).apply {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         return imageAdapter.getItemViewType(position)
@@ -75,17 +75,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         vm.emptyResult.observe(this) {
-            if(it) {
+            if (it) {
                 binding.tvEmptyResult.visible()
-            }else {
+            } else {
                 binding.tvEmptyResult.gone()
             }
         }
 
         vm.loadingStatus.observe(this) {
-            if(it) {
+            if (it) {
                 binding.pbLoading.visible()
-            }else {
+            } else {
                 binding.pbLoading.gone()
             }
         }
